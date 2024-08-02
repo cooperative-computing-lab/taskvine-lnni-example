@@ -76,6 +76,8 @@ def main():
         exit(2)
     else:    
         import ndcctools.taskvine as vine
+        import os
+        cwd = os.getcwd()
         q = vine.Manager(port=port, name='nn_exp')
         print(f"TaskVine manager listening on port {q.port}")
         weight_path_vine_file = q.declare_file(weight_path, cache=True, peer_transfer=True)
@@ -90,7 +92,7 @@ def main():
                 q.submit(t)
         elif mode == 'remote-r':
             for i in range(num_tasks):
-                t = vine.PythonTask(run, weight_path, x, num_inferences_per_task)
+                t = vine.PythonTask(run, cwd+'/'+weight_path, x, num_inferences_per_task)
                 t.set_cores(cores_per_task)
                 t.set_command(init_command + t.command)
                 q.submit(t)

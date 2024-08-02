@@ -36,6 +36,8 @@
 
 ## Create env.tar.gz, a software tarball
 
+`cd ..`
+
 `poncho_package_create lnni env.tar.gz`
 
 ## Create a sandbox for taskvine worker
@@ -59,3 +61,7 @@ For the following runs, we need to set up a TaskVine worker locally.
     Remember, every run with TaskVine will spawn a manager (by running python run.py ...) and tasks are deployed to a TaskVine worker. When the manager ends with all tasks completed, feel free to SIGINT this worker process.
 
 `python run.py remote-p`: This command runs a TaskVine manager with regular PythonTasks. These tasks are independent and share no context. You need to run a worker process side by side.
+
+`python run.py remote-s`: This command runs a TaskVine manager with regular PythonTasks. However these tasks fetch data directly from the shared filesystem (note that for this test it is the local file system as the manager and worker live in the same machine.) You need to run a worker process side by side.
+
+`python run.py remote-s`: This command runs a TaskVine manager with a Library containing the context and FunctionCalls that serve as tasks that share the context. You need to run a worker process side by side. Observe how the execution latency is significantly less than that of remote-p.
